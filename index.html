@@ -19,6 +19,12 @@
         <p v-else>else condition</p>
       </div>
       <button @click="toggleBox">ShowBox</button>
+      <input
+        v-model="userName"
+        @keyup.enter="keyEvent(userName)"
+        class="userName"
+      />
+      <login-form />
     </div>
 
     <script src="https://unpkg.com/vue@next"></script>
@@ -30,12 +36,38 @@
             isShowBox: true,
             showFirst: false,
             showSecond: false,
+            userName: "",
           };
         },
         methods: {
           toggleBox() {
             console.log(this);
             this.isShowBox = !this.isShowBox;
+          },
+          keyEvent(name) {
+            console.log(name);
+          },
+        },
+      });
+      app.component("login-form", {
+        template: `
+        <h1>{{title}}</h1>
+            <form @submit.prevent='submitHandler'>
+                <input v-model='email' type='email' placeholder='email address'/>
+                <input v-model='password' type='password' placeholder='password'/>
+                <button>Login</button>
+            </form>
+          `,
+        data() {
+          return {
+            title: "login-form",
+            email: "",
+            password: "",
+          };
+        },
+        methods: {
+          submitHandler() {
+            console.log("datas", this.email, this.password);
           },
         },
       });
