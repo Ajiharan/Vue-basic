@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <p>{{greeting}}</p>
+      <input v-model="greeting" />
+      <div v-if="isShowBox" class="box"></div>
+      <div v-show="!isShowBox" class="box"></div>
+      <div class="condition">
+        <p v-if="showFirst">if condition shows</p>
+        <p v-else-if="showSecond">else if condition</p>
+        <p v-else>else condition</p>
+      </div>
+      <button @click="toggleBox">ShowBox</button>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      const app = Vue.createApp({
+        data: function () {
+          return {
+            greeting: "hello Vue!",
+            isShowBox: true,
+            showFirst: false,
+            showSecond: false,
+          };
+        },
+        methods: {
+          toggleBox() {
+            console.log(this);
+            this.isShowBox = !this.isShowBox;
+          },
+        },
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>

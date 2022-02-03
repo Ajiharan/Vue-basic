@@ -1,0 +1,10 @@
+.box {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  margin-top: 1rem;
+}
+
+[v-cloak] {
+  display: none;
+}
