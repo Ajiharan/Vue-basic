@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root" v-cloak>
+      <div class="title">{{Title}}</div>
+      <form-container />
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            Title: "welcome vue js",
+          };
+        },
+      });
+
+      app.component("form-container", {
+        template: `
+            <div class='login__form'>
+                <form @submit.prevent='submitHandler'>
+                    <custom-input v-for="(input,i) in inputs" v-model='input.value' :key='i' :placeholder='input.placeholder' :type='input.type' :label='input.label'/>
+                    <button>Login</button>
+                </form>    
+            </div>
+          `,
+        data() {
+          return {
+            inputs: [
+              {
+                type: "email",
+                placeholder: "Enter email address",
+                label: "Email Address",
+                value: "",
+              },
+              {
+                type: "password",
+                placeholder: "Enter password",
+                label: "Password",
+                value: "",
+              },
+            ],
+          };
+        },
+        methods: {
+          submitHandler() {
+            console.log(
+              this.inputs.reduce((acc, c) => {
+                return `${acc}\n${c.type} : ${c.value}`;
+              }, "")
+            );
+          },
+        },
+      });
+
+      app.component("custom-input", {
+        template: `
+         <label>
+            {{label}}
+            <input :type='type' :placeholder='placeholder' v-model='inputValue'/>    
+        </label>
+          `,
+        props: ["modelValue", "label", "type", "placeholder"],
+        computed: {
+          inputValue: {
+            get() {
+              return this.modelValue;
+            },
+            set(value) {
+              this.$emit("update:modelValue", value);
+            },
+          },
+        },
+      });
+      app.mount("#root");
+    </script>
+  </body>
+</html>

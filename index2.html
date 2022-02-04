@@ -10,6 +10,7 @@
   <body>
     <div id="app" v-cloak>
       <p>{{greeting}}</p>
+
       <input v-model="greeting" />
       <div v-if="isShowBox" class="box"></div>
       <div v-show="!isShowBox" class="box"></div>
@@ -24,6 +25,10 @@
         @keyup.enter="keyEvent(userName)"
         class="userName"
       />
+      <div>
+        <p>hi</p>
+        <p v-for="(fruit,i) in fruits" :key="i">{{fruit}}</p>
+      </div>
       <login-form />
     </div>
 
@@ -37,6 +42,7 @@
             showFirst: false,
             showSecond: false,
             userName: "",
+            fruits: ["apple", "orange", "banana"],
           };
         },
         methods: {
@@ -51,8 +57,8 @@
       });
       app.component("login-form", {
         template: `
-        <h1>{{title}}</h1>
             <form @submit.prevent='submitHandler'>
+              <h1>{{title}}</h1>
                 <custom-input v-model="email" label="Email address"/>
                 <custom-input v-model="password" label="password"/>
                 <button>Login</button>
