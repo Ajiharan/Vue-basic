@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <p>{{greeting}}</p>
+      <input v-model="greeting" />
+      <div v-if="isShowBox" class="box"></div>
+      <div v-show="!isShowBox" class="box"></div>
+      <div class="condition">
+        <p v-if="showFirst">if condition shows</p>
+        <p v-else-if="showSecond">else if condition</p>
+        <p v-else>else condition</p>
+      </div>
+      <button @click="toggleBox">ShowBox</button>
+      <input
+        v-model="userName"
+        @keyup.enter="keyEvent(userName)"
+        class="userName"
+      />
+      <login-form />
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            greeting: "hello Vue!",
+            isShowBox: true,
+            showFirst: false,
+            showSecond: false,
+            userName: "",
+          };
+        },
+        methods: {
+          toggleBox() {
+            console.log(this);
+            this.isShowBox = !this.isShowBox;
+          },
+          keyEvent(name) {
+            console.log(name);
+          },
+        },
+      });
+      app.component("login-form", {
+        template: `
+        <h1>{{title}}</h1>
+            <form @submit.prevent='submitHandler'>
+                <custom-input v-model="email" label="Email address"/>
+                <custom-input v-model="password" label="password"/>
+                <button>Login</button>
+            </form>
+          `,
+        components: ["custom-input"],
+        data() {
+          return {
+            title: "login-form",
+            email: "",
+            password: "",
+          };
+        },
+        methods: {
+          submitHandler() {
+            console.log("datas", this.email, this.password);
+          },
+        },
+      });
+      app.component("custom-input", {
+        template: `
+          <label> {{label}}<input type='text' v-model="inputValue"/></label>
+          `,
+        props: ["label", "modelValue"],
+
+        computed: {
+          inputValue: {
+            get() {
+              return this.modelValue;
+            },
+            set(value) {
+              this.$emit("update:modelValue", value);
+            },
+          },
+        },
+        data() {
+          return {};
+        },
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>
