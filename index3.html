@@ -31,6 +31,7 @@
                     <custom-input v-for="(input,i) in inputs" v-model='input.value' :key='i' :placeholder='input.placeholder' :type='input.type' :label='input.label'/>
                     <button>Login</button>
                 </form>    
+                <model-container/>
             </div>
           `,
         data() {
@@ -79,6 +80,20 @@
               this.$emit("update:modelValue", value);
             },
           },
+        },
+      });
+
+      app.component("model-container", {
+        template: `
+          <div class='custom-input'>
+            <input type='text' v-model.lazy='msg'/>  
+            <p>{{msg}}</p>
+          </div>
+        `,
+        data() {
+          return {
+            msg: "",
+          };
         },
       });
       app.mount("#root");
